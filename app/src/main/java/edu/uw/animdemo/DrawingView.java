@@ -8,6 +8,9 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A basic custom view for drawing on.
  * @author Joel Ross
@@ -26,6 +29,7 @@ public class DrawingView extends View {
 
     public Ball ball; //public for easy access
 
+    private HashMap<Integer, Ball> touches;
     /**
      * We need to override all the constructors, since we don't know which will be called
      * All the constructors eventually call init()
@@ -47,6 +51,15 @@ public class DrawingView extends View {
         whitePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         whitePaint.setColor(Color.WHITE);
 
+    }
+
+    public void addTouch(int id, float x, float y) {
+        Ball newBall = new Ball(x, y, 5);
+        touches.put(id, newBall);
+    }
+
+    public void removeTouch(int id) {
+        touches.remove(id);
     }
 
     /**

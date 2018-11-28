@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.HashMap;
+
 /**
  * An example SurfaceView for generating graphics on
  * @author Joel Ross
@@ -22,7 +24,7 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
     private int viewWidth, viewHeight; //size of the view
 
     private Bitmap bmp; //image to draw on
-
+    private HashMap<Integer, Ball> touches;
     private SurfaceHolder mHolder; //the holder we're going to post updates to
     private DrawingRunnable mRunnable; //the code that we'll want to run on a background thread
     private Thread mThread; //the background thread
@@ -72,7 +74,14 @@ public class DrawingSurfaceView extends SurfaceView implements SurfaceHolder.Cal
         ball = new Ball(viewWidth/2, viewHeight/2, 100);
     }
 
+    public synchronized void addTouch(int id, float x, float y) {
+        Ball newBall = new Ball(x, y, 5);
+        touches.put(id, newBall);
+    }
 
+    public synchronized void removeTouch(int id) {
+        touches.remove(id);
+    }
     /**
      * Helper method for the "game loop"
      */
